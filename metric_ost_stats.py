@@ -34,6 +34,13 @@ def read_ost_stats(f):
                     ret["write_bytes_sum"] = int(chopped[6])
                 if chopped[0] == "read_bytes":
                     ret["read_bytes_sum"] = int(chopped[6])
+    
+    pfile = os.path.normpath(f) + "/kbytesavail"
+    with open(pfile, "r") as f:
+	    for line in f:
+	    	chopped = line.split('=');
+	    	if "kbytesavail" in chopped[0]:
+			ret["kbytes_avail"] = int(chopped[0])			
 
     if ret['read_bytes_sum'] == 0 and ret['write_bytes_sum'] == 0:
         return None
