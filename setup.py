@@ -25,6 +25,8 @@ setuptools.setup(name='oddmon',
     py_modules=['monctl', 'oddpub', 'oddsub','hostlist',
                 'lfs_utils', 'daemon',
                 'metric_ost_stats',
+		'metric_oss_stats',
+		'metric_lnet_stats',
                 'metric_ost_brw_stats'],
     entry_points={
         'console_scripts': [
