@@ -23,7 +23,7 @@ def read_ost_stats(f):
     return a dictionary with key/val pairs
     """
     ret = {'read_bytes_sum': 0, 'write_bytes_sum': 0}
-
+    f1 = f	
     pfile = os.path.normpath(f) + "/stats"
     with open(pfile, "r") as f:
             for line in f:
@@ -35,12 +35,10 @@ def read_ost_stats(f):
                 if chopped[0] == "read_bytes":
                     ret["read_bytes_sum"] = int(chopped[6])
     
-    pfile = os.path.normpath(f) + "/kbytesavail"
-    with open(pfile, "r") as f:
-	    for line in f:
-	    	chopped = line.split('=');
-	    	if "kbytesavail" in chopped[0]:
-			ret["kbytes_avail"] = int(chopped[0])			
+    pfile = os.path.normpath(f1) + "/kbytesavail"
+    with open(pfile, "r") as f1:
+	    for line in f1:
+			ret["kbytes_avail"] = int(line)			
 
     if ret['read_bytes_sum'] == 0 and ret['write_bytes_sum'] == 0:
         return None
