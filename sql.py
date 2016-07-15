@@ -1,3 +1,5 @@
+#AUTHOR: SANGEETHA BANAVATHI 
+#MONGODB to store metric collected
 import logging
 import pymongo
 logger = logging.getLogger("app.%s" % __name__)
