@@ -1,63 +1,50 @@
 import logging
-import sqlite3 as lite
-
+import pymongo
 logger = logging.getLogger("app.%s" % __name__)
 
 class G:
     conn = None
 
-def drop_table(name):
+def drop_table(client,name):
+        client.drop_database(name)
+        logger.info("Database %s dropped" % name)
 
-    c = G.conn.cursor()
+def create_table(client, name="OST_STATS", drop = False):
+        if drop:
+                drop_table(client,name)
 
-    try:
-        c.execute("DROP TABLE %s" % name)
-    except lite.OperationalError as e:
-        logger.error(e)
-    else:
-        logger.info("Table %s removed" % name)
+        db = client.name
 
-def create_table(name="OST_STATS", drop = False):
-    c = G.conn.cursor()
-
-    if drop:
-        drop_table(name)
-
-    # create table
-    try:
-        c.execute('''
-                CREATE TABLE %s(
-                    Timestamp TEXT,
-                    Metric TEXT,
-                    Target TEXT,
-                    Attributes TEXT)
-                ''' % name)
-    except lite.OperationalError as e:
-        logger.warn(e)
-    else:
-        logger.info("Table %s created" % name)
+        logger.info("Database %s created" % name)
+        global collection
+        collection = db.name
+        collection
+        logger.info("Collection %s created" % name)
 
 
 def insert_row(metric, stats):
-    c = G.conn.cursor()
-    try:
+
+        doc = {}
+
         for target, attr in stats.iteritems():
-            ts = attr["snapshot_time"]
-            c.execute("INSERT INTO OST_STATS VALUES (?, ?, ?, ?)",
-                    (metric, ts, target, str(attr)))
+            doc["Metric"] = metric
+            doc["Target"] = target
+            doc["Attributes"] = str(attr)
+        collection.insert(doc)
 
-        G.conn.commit()
-    except lite.Error as e:
-        logger.error(e)
-    else:
-        logger.debug("Insert OK from %s" % metric)
 
-def db_init(url, initTable=False):
+def db_init(hosts, port, initTable=False):
 
     if G.conn is None:
-        G.conn = lite.connect(url)
 
-    create_table(drop = initTable)
+        try:
+                for host in hosts:
+                        logger.warn('mongodb://'+host+":"+port)
+                        client = pymongo.MongoClient('mongodb://'+host+":"+port)
+                        print "Connected successfully!!!"
+        except pymongo.errors.ConnectionFailure, e:
+                print "Could not connect to MongoDB: %s" % e
+    create_table(client, drop = initTable)
 
 def db_close():
     if G.conn is not None:
