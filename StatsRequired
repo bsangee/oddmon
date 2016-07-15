@@ -1,9 +1,8 @@
 OST
-1. proc/fs/lustre/obdfilter/OST/...
-2. stats
-3. job_stats
-4. kbytesfree
-5. brw_stats
+1. /proc/fs/lustre/obdfilter/lustre-OST0000/stats
+2. /proc/fs/lustre/obdfilter/lustre-OST0000/job_stats
+3. /proc/fs/lustre/obdfilter/lustre-OST0000/kbytesfree
+4. /proc/fs/lustre/obdfilter/lustre-OST0000/brw_stats
 
 OSS
 1. /proc/sys/lnet/stats
@@ -22,6 +21,10 @@ MDS
 MDT
 1. /proc/fs/lustre/mdt/lustre-MDT0000/md_stats
 2. /proc/fs/lustre/mdt/lustre-MDT0000/job_stats
+
+
+
+PS: OST0000 and MDT0000 are just for reference
 
 
 
