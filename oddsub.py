@@ -50,7 +50,7 @@ def zmq_init(hosts, port):
 def main(hosts, port, url):
     global logger
     logger = logging.getLogger("app.%s" % __name__)
-    sql.db_init(url)
+    sql.db_init(hosts, port)
     zmq_init(hosts, port)
 
     # we kick off the event loop with zmq_init()
