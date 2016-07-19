@@ -40,7 +40,7 @@ def read_lnet_stats(f):
 
 def update():
 
-        fpath = '/proc/sys/' + lnet
+        fpath = '/proc/sys/' + 'lnet'
         ret = read_lnet_stats(fpath)
         if ret:
             G.stats[lnet] = ret
