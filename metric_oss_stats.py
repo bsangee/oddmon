@@ -1,3 +1,5 @@
+#AUTHOR: Sangeetha Banavathi
+#Script to collect CPU and memory stats from OSS
 #!/usr/bin/env python
 
 import os
