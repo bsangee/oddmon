@@ -24,6 +24,7 @@ def read_ost_stats(f):
     """
     ret = {'read_bytes_sum': 0, 'write_bytes_sum': 0}
     f1 = f	
+    f2 = f
     pfile = os.path.normpath(f) + "/stats"
     with open(pfile, "r") as f:
             for line in f:
@@ -38,7 +39,14 @@ def read_ost_stats(f):
     pfile = os.path.normpath(f1) + "/kbytesavail"
     with open(pfile, "r") as f1:
 	    for line in f1:
-			ret["kbytes_avail"] = int(line)			
+			ret["kbytes_avail"] = int(line)	
+    
+    pfile = os.path.normpath(f2) + "/job_stats"
+    with open(pfile, "r") as f2:
+            for line in f2:
+                chopped = line.split(":")
+                if chopped[0] == "job_stats":
+                        ret["job_stats"] = chopped[1]			
 
     if ret['read_bytes_sum'] == 0 and ret['write_bytes_sum'] == 0:
         return None
