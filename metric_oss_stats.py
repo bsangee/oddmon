@@ -21,7 +21,7 @@ def read_oss_stats():
     for line in cmd.stdout:	
                 chopped = line.split()
 		if chopped and count == 10:
-		   ret['cpu'] = 100 - int(chopped[-1]);
+		   ret['cpu'] = 100 - float(chopped[-1]);
 		if chopped and count == 13:
 		   ret['mem'] = int(chopped[3]);			
 		count = count+1; 	
