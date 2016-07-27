@@ -40,20 +40,16 @@ def read_lnet_stats(f):
 
 def update():
 
-        fpath = '/proc/sys/' + lnet
+        fpath = '/proc/sys/lnet'
         ret = read_lnet_stats(fpath)
         if ret:
-            G.stats[lnet] = ret
+            G.stats = ret
 
 def metric_init(name, loglevel=logging.DEBUG):
     global logger
     logger = logging.getLogger("app.%s" % __name__)
 
 def get_stats():
-
-    if G.fsname is None:
-        logger.error("No valid file system ... skip")
-        return ""
 
     update()
 
