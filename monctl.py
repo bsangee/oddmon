@@ -12,6 +12,8 @@ import ConfigParser
 import argparse
 import hostlist
 from daemon import Daemon
+import threading
+from threading import Thread
 
 # Globals
 logger  = logging.getLogger("app")
@@ -40,6 +42,7 @@ def parse_args():
     collect_parser.set_defaults(func=main_collect)
     aggregate_parser = subparsers.add_parser("aggregate", parents=[parent_parser], help="Run in aggregator mode")
     aggregate_parser.add_argument("--pid", default="aggregate.pid")
+    aggregate_parser.add_argument("-i", "--interval", type=int, nargs=1, default=10)
     aggregate_parser.set_defaults(func=main_aggregate)
     myargs = parser.parse_args()
     return myargs
@@ -57,8 +60,11 @@ class CollectDaemon(Daemon):
 class AggregateDaemon(Daemon):
     def run(self):
         import oddsub
+        import oddmds
         oddsub.ARGS = ARGS
-        oddsub.main(G.hosts, G.port, G.url)
+        oddmds.ARGS = ARGS
+        Thread(target=oddmds.main).start()
+        Thread(target=oddsub.main(G.hosts, G.port, G.url)).start()
 
 
 def handle(p):
