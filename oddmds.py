@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+"""
+    Collects MDS stats and sends it to subscriber to insert into database
+"""
 import sys
 import os.path
 import time
