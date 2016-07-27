@@ -27,7 +27,11 @@ setuptools.setup(name='oddmon',
                 'metric_ost_stats',
 		'metric_oss_stats',
 		'metric_lnet_stats',
-                'metric_ost_brw_stats'],
+                'metric_ost_brw_stats',
+                'oddmds',
+                'mds_lnet_stats',
+                'mds_stats',
+                'mdt_stats'],
     entry_points={
         'console_scripts': [
             'monctl=monctl:main'
