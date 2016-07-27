@@ -17,6 +17,17 @@ def scan_osts():
             ostnames.append(os.path.basename(ost))
     return fsname, ostnames
 
+def scan_mdts():
+    fsname = None
+    mdtnames = []
+    mdts = glob.glob("/proc/fs/lustre/mdt/*MDT*")
+    if len(mdts) != 0:
+        fsname, _ = os.path.basename(mdts[0]).split("-")
+        for mdt in mdts:
+            mdtnames.append(os.path.basename(mdt))
+    return fsname, mdtnames
+
+
 def get_filehandler(f, m="w", level=logging.DEBUG):
     fh = logging.FileHandler(filename=f, mode=m)
     fh.setLevel(level)
