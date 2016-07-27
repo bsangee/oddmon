@@ -44,7 +44,7 @@ def insert_row(metric, stats):
         for target, attr in stats.iteritems():
             ts = None
 
-            if metric != "metric_oss_stats" and metric != "metric_lnet_stats":
+            if metric != "metric_oss_stats" and metric != "metric_lnet_stats" and metric == "md_stats":
               ts = attr["snapshot_time"]
             c.execute("INSERT INTO OST_STATS VALUES (?, ?, ?, ?)",
                     (metric, ts, target, str(attr)))
