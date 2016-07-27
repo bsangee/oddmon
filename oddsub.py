@@ -7,6 +7,10 @@ from zmq.eventloop import ioloop, zmqstream
 import json
 import ast
 import sql
+import threading
+from threading import Thread
+import oddmds
+
 
 ARGS    = None
 logger  = None
@@ -56,4 +60,6 @@ def main(hosts, port, url):
     # we kick off the event loop with zmq_init()
     # after that, all we have to do is sit tight
 
-if __name__ == "__main__": main()
+if __name__ == "__main__": 
+    Thread(target=main).start()
+    Thread(target=oddmds.main).start()
