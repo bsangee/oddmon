@@ -22,28 +22,24 @@ def read_mdt_stats(f):
     expect input of a path to ost stats
     return a dictionary with key/val pairs
     """
-    ret = {'read_bytes_sum': 0, 'write_bytes_sum': 0}
-    f1 = f
+    ret = {}
     pfile = os.path.normpath(f) + "/md_stats"
     with open(pfile, "r") as f:
             for line in f:
                 chopped = line.split()
-                if chopped[0] == "snapshot_time":
-                    ret["snapshot_time"] = chopped[1]
-                if chopped[0] == "write_bytes":
-                    ret["write_bytes_sum"] = int(chopped[6])
-                if chopped[0] == "read_bytes":
-                    ret["read_bytes_sum"] = int(chopped[6])
-
-    pfile = os.path.normpath(f1) + "/kbytesavail"
-    with open(pfile, "r") as f1:
-            for line in f1:
-                chopped = line.split('=');
-                if "kbytesavail" in chopped[0]:
-                        ret["kbytes_avail"] = int(chopped[0])
-
-    if ret['read_bytes_sum'] == 0 and ret['write_bytes_sum'] == 0:
-        return None
+                if chopped[0] == "open":
+                    ret['open'] = int(chopped[1])
+                if chopped[0] == "close":
+                    ret['close'] = int(chopped[1])
+                if chopped[0] == "unlink":
+                    ret['unlink'] = chopped[1]
+                if chopped[0] == "getattr":
+                    ret['getattr'] = int(chopped[1])
+                if chopped[0] == "getxattr":
+                    ret['getxattr'] = int(chopped[1])
+                if chopped[0] == "statfs":
+                    ret['statfs'] = int(chopped[1])
+    return ret
 
 def update():
 
